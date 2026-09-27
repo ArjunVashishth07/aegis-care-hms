@@ -28,6 +28,7 @@ export default function OPDQueue() {
     updatePatientStatus,
     setActiveConsultationPatient,
     setIsOpdModalOpen,
+    isLoading,
   } = useHospital();
 
   const navigate = useNavigate();
@@ -230,7 +231,32 @@ export default function OPDQueue() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {filteredPatients.length === 0 ? (
+              {isLoading ? (
+                [...Array(4)].map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="py-4 px-6">
+                      <div className="h-6 w-14 bg-slate-200 rounded-md" />
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="h-4 w-36 bg-slate-200 rounded mb-1.5" />
+                      <div className="h-3 w-24 bg-slate-100 rounded" />
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="h-4 w-28 bg-slate-200 rounded mb-1.5" />
+                      <div className="h-3 w-20 bg-slate-100 rounded" />
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="h-5 w-16 bg-slate-200 rounded-full" />
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="h-5 w-24 bg-slate-200 rounded-full" />
+                    </td>
+                    <td className="py-4 px-6 text-right">
+                      <div className="h-7 w-20 bg-slate-200 rounded-lg ml-auto" />
+                    </td>
+                  </tr>
+                ))
+              ) : filteredPatients.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="py-12 text-center text-slate-400 font-medium">
                     No matching patients found.

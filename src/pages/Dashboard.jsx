@@ -19,7 +19,7 @@ import {
 import { useHospital } from '../context/HospitalContext';
 
 export default function Dashboard() {
-  const { patients, stats, callNextPatient, setActiveConsultationPatient } = useHospital();
+  const { patients, stats, callNextPatient, setActiveConsultationPatient, isLoading } = useHospital();
   const navigate = useNavigate();
 
   const departmentLoads = [
@@ -272,9 +272,21 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {patients.map((patient) => {
-                const isWithDoctor = patient.status === 'With Doctor';
-                const isCompleted = patient.status === 'Completed';
+              {isLoading ? (
+                [...Array(4)].map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="py-4 px-6"><div className="h-6 w-14 bg-slate-200 rounded-md" /></td>
+                    <td className="py-4 px-6"><div className="h-4 w-36 bg-slate-200 rounded mb-1.5" /><div className="h-3 w-24 bg-slate-100 rounded" /></td>
+                    <td className="py-4 px-6"><div className="h-4 w-28 bg-slate-200 rounded mb-1.5" /><div className="h-3 w-20 bg-slate-100 rounded" /></td>
+                    <td className="py-4 px-6"><div className="h-5 w-16 bg-slate-200 rounded-full" /></td>
+                    <td className="py-4 px-6"><div className="h-5 w-24 bg-slate-200 rounded-full" /></td>
+                    <td className="py-4 px-6 text-right"><div className="h-7 w-20 bg-slate-200 rounded-lg ml-auto" /></td>
+                  </tr>
+                ))
+              ) : (
+                patients.map((patient) => {
+                  const isWithDoctor = patient.status === 'With Doctor';
+                  const isCompleted = patient.status === 'Completed';
 
                 return (
                   <tr
@@ -355,7 +367,8 @@ export default function Dashboard() {
                     </td>
                   </tr>
                 );
-              })}
+              })
+            )}
             </tbody>
           </table>
         </div>
